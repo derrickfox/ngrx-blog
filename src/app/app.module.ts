@@ -17,6 +17,9 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './app.reducer';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AdminDashComponent } from './admin-dash/admin-dash.component';
+import { BlogPostComponent } from './blog-post/blog-post.component';
+import { BlogListModule } from './blog-list/blog-list.module';
 
 
 @NgModule({
@@ -24,7 +27,9 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     AppComponent,
     WelcomeComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    AdminDashComponent,
+    BlogPostComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +38,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     AppRoutingModule,
     FlexLayoutModule,
     AngularFireAuthModule,
+    BlogListModule,
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
     StoreModule.forRoot(reducers)
