@@ -20,7 +20,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AdminDashComponent } from './admin-dash/admin-dash.component';
 import { BlogPostComponent } from './blog-post/blog-post.component';
 import { BlogListModule } from './blog-list/blog-list.module';
-
+import { BlogService } from './blog.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,8 @@ import { BlogListModule } from './blog-list/blog-list.module';
     LayoutStyleBuilder,
     MediaMarshaller,
     AuthService,
-    UiService
+    UiService,
+    BlogService
   ],
   bootstrap: [AppComponent]
 })

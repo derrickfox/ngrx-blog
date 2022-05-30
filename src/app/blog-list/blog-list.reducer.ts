@@ -29,6 +29,6 @@ export function blogListReducer(state = initialState, action: BlogPostActions) {
 }
 
 
-export const getBlogPostsState = createFeatureSelector<BlogPostState>('training');
+export const getBlogPostsState = createFeatureSelector<BlogPostState>('blogPost');
 
 export const getAllBlogPosts = createSelector(getBlogPostsState, (state: BlogPostState) => state.allBlogPosts);
