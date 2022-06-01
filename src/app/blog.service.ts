@@ -11,7 +11,7 @@ import { Store } from "@ngrx/store";
 
 @Injectable()
 export class BlogService {
-    public allBlogPosts = new Subject<BlogPost>();
+    public blog_posts = new Subject<BlogPost>();
     private fbSubs: Subscription[] = [];
 
     constructor(
@@ -23,33 +23,68 @@ export class BlogService {
     public fetchAllBlogPosts(): any {
         this.store.dispatch(new UI.StartLoading());
         this.fbSubs.push(this.db
-		.collection('blog-posts')
-		.snapshotChanges()
-		.pipe(
-			map(docArray => {
-				return docArray.map(doc => {
-                    const data = doc.payload.doc.data() as any;
-					return {
-						id: doc.payload.doc.id,
-						title: data['title'],
-						duration: data['duration'],
-						calories: data['calories']
-					}
-				})
-			})
-		)
-		.subscribe((blog_post: any) => {
-            console.log(blog_post)
-            //this.store.dispatch(new UI.StopLoading());
-            //this.store.dispatch(new Training.SetAvailableTrainings(exercises));
-        }, () => {
-            // this.store.dispatch(new UI.StopLoading());
-            // this.uiService.showSnackbar('Fetching exercises failed, please try again later.', null, 3000);
-            // this.exercisesChanged.next(null);
-        }));
+            .collection('blog-posts')
+            .snapshotChanges()
+            .pipe(
+                map(docArray => {
+                    console.log('service -> docArray', docArray)
+                    return docArray.map(doc => {
+                        const data = doc.payload.doc.data() as any;
+                        return {
+                            id: doc.payload.doc.id,
+                            title: data['title'],
+                            duration: data['duration'],
+                            calories: data['calories']
+                        }
+                    })
+                })
+            )
+            .subscribe((blog_post: any) => {
+                console.log(blog_post)
+                //this.store.dispatch(new UI.StopLoading());
+                //this.store.dispatch(new Training.SetAvailableTrainings(exercises));
+            }, () => {
+                // this.store.dispatch(new UI.StopLoading());
+                // this.uiService.showSnackbar('Fetching exercises failed, please try again later.', null, 3000);
+                // this.exercisesChanged.next(null);
+            }
+        ));
     }
 
-    public getEveryBlogPost() {
+    public getEveryBlogPost(): any {
+        console.log('getEveryBlogPost');
+        this.store.dispatch(new UI.StartLoading());
+        this.fbSubs.push(this.db
+            .collection('blog-posts')
+            .snapshotChanges()
+            .pipe(
+                map(docArray => {
+                    console.log('service -> docArray', docArray)
+                    return docArray.map(doc => {
+                        const data = doc.payload.doc.data() as any;
+                        return {
+                            id: doc.payload.doc.id,
+                            title: data['title'],
+                            duration: data['duration'],
+                            calories: data['calories']
+                        }
+                    })
+                })
+            )
+            .subscribe((blog_post: any) => {
+                console.log(blog_post)
+                this.store.dispatch(new UI.StopLoading());
+                this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
+            }, () => {
+                 this.store.dispatch(new UI.StopLoading());
+                 //this.uiService.showSnackbar('Fetching exercises failed, please try again later.', null, 3000);
+                // this.exercisesChanged.next(null);
+            }
+        ));
+    }
+
+    public getEveryBlogPost1() {
+        console.log('service -> getEveryBlogPost')
         this.fbSubs.push(this.db
             .collection('blog-posts')
             .valueChanges()

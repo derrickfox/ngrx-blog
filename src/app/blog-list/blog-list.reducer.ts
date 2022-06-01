@@ -8,7 +8,7 @@ export interface BlogPostState {
 };
 
 export interface State extends fromRoot.State {
-    blog_post: BlogPostState;
+    blog_post_state: BlogPostState;
 }
 
 const initialState: BlogPostState = {
@@ -16,19 +16,22 @@ const initialState: BlogPostState = {
 };
 
 export function blogListReducer(state = initialState, action: BlogPostActions) {
+    console.log('action', action)
     switch (action.type) {
         case GET_ALL_BLOG_POSTS:
+            console.log('GET_ALL_BLOG_POSTS action -> reducer');
             return {
                 ...state,
                 allBlogPosts: action.payload
             };
         default: {
+            console.log('reducer default case')
             return state;
         }
     }
 }
 
 
-export const getBlogPostsState = createFeatureSelector<BlogPostState>('blogPost');
+export const getBlogPostsState = createFeatureSelector<BlogPostState>('blog_post_state');
 
 export const getAllBlogPosts = createSelector(getBlogPostsState, (state: BlogPostState) => state.allBlogPosts);
