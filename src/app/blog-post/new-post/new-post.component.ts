@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { BlogService } from 'src/app/blog.service';
+import { UiService } from 'src/app/shared/ui.service';
+import * as fromBlogging from '../../blog-list/blog-list.reducer'
+import * as Blogging from '../../blog-list/blog-list.actions';
+import { BlogPost } from '../blog-post.model';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-post',
@@ -10,7 +18,12 @@ import { BlogService } from 'src/app/blog.service';
 export class NewPostComponent implements OnInit {
   newPostForm!: FormGroup;
 
-  constructor(private blogService: BlogService) { }
+  constructor(
+    private router: Router,
+    private blogService: BlogService,
+    private db: AngularFirestore, 
+    private uiService: UiService,
+    private store: Store<fromBlogging.State>) { }
 
   ngOnInit(): void {
     this.newPostForm = new FormGroup({
@@ -18,6 +31,30 @@ export class NewPostComponent implements OnInit {
       content: new FormControl('', { validators: [Validators.required] })
     });
   }
-  public submitNewBlogPost(): void {
+  private addDataToDatabase(blogPost: BlogPost) {
+    this.db.collection('blog-posts').add(blogPost);
+  }
+
+  public submitNewBlogPost(): void {        
+    console.log('submitNewBlogPost')
+    this.store.select(fromBlogging.createNewBlogPost).pipe(take(1)).subscribe(() => {
+      this.addDataToDatabase({
+          title: this.newPostForm.value.title,
+          date: new Date,
+          content: this.newPostForm.value.content,
+          author: 'test author',
+          status: 'test status'
+      });
+      this.store.dispatch(new Blogging.CreateNewBlogPost(
+        {
+            title: 'Test Title from Dispatch',
+            date: new Date,
+            content: 'test dispatch content',
+            author: 'test author',
+            status: 'test status'
+        }
+      ));
+      this.router.navigate(['/list'])
+    })
   }
 }

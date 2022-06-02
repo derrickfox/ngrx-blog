@@ -13,10 +13,11 @@ import { Store } from "@ngrx/store";
 export class BlogService {
     public blog_posts = new Subject<BlogPost>();
     private fbSubs: Subscription[] = [];
+    private new_post!: BlogPost;
 
     constructor(
         private db: AngularFirestore, 
-        //private uiService: UiService,
+        private uiService: UiService,
         private store: Store<fromBlogging.State>
     ) {}
     
@@ -92,6 +93,10 @@ export class BlogService {
                 console.log(blog_post)
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
         }));
+    }
+
+    public createNewBlogPost() {
+        this.store.dispatch(new Blogging.CreateNewBlogPost({ title: '', content: '', date: new Date(), author: '', status: '' }));
     }
 
     public cancelSubscriptions() {
