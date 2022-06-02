@@ -11,7 +11,7 @@ import { blogListReducer } from "./blog-list.reducer";
     ],
     imports: [
         SharedModule,
-        StoreModule.forFeature('list', blogListReducer),
+        StoreModule.forFeature('blog_post_state', blogListReducer),
         BlogListRoutingModule
     ],
     exports: [],
