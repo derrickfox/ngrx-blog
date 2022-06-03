@@ -28,20 +28,20 @@ export class BlogService {
             .snapshotChanges()
             .pipe(
                 map(docArray => {
-                    console.log('service -> docArray', docArray)
+                    console.log('service -> fetchAllBlogPosts -> docArray', docArray)
                     return docArray.map(doc => {
                         const data = doc.payload.doc.data() as any;
                         return {
                             id: doc.payload.doc.id,
                             title: data['title'],
-                            duration: data['duration'],
-                            calories: data['calories']
+                            content: data['content'],
+                            status: data['status']
                         }
                     })
                 })
             )
-            .subscribe((blog_post: any) => {
-                console.log(blog_post)
+            .subscribe((blog_posts: any) => {
+                console.log('service -> fetchAllBlogPosts -> subscribe -> blog_post' )
                 //this.store.dispatch(new UI.StopLoading());
                 //this.store.dispatch(new Training.SetAvailableTrainings(exercises));
             }, () => {
@@ -53,7 +53,7 @@ export class BlogService {
     }
 
     public getEveryBlogPost(): any {
-        console.log('getEveryBlogPost');
+        console.log('service -> getEveryBlogPost');
         this.store.dispatch(new UI.StartLoading());
         this.fbSubs.push(this.db
             .collection('blog-posts')
@@ -66,14 +66,14 @@ export class BlogService {
                         return {
                             id: doc.payload.doc.id,
                             title: data['title'],
-                            duration: data['duration'],
-                            calories: data['calories']
+                            content: data['content'],
+                            status: data['status']
                         }
                     })
                 })
             )
             .subscribe((blog_post: any) => {
-                console.log(blog_post)
+                console.log('service -> getEveryBlogPost -> blog_post', blog_post)
                 this.store.dispatch(new UI.StopLoading());
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
             }, () => {
@@ -90,13 +90,17 @@ export class BlogService {
             .collection('blog-posts')
             .valueChanges()
             .subscribe((blog_post: any) => {
-                console.log(blog_post)
+                console.log('service -> getEveryBlogPost1 -> blog_post', blog_post)
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
         }));
     }
 
+    public deleteBlogPost(id: string) {
+        this.db.collection('blog-posts').doc(id).delete();
+    }
+
     public createNewBlogPost() {
-        this.store.dispatch(new Blogging.CreateNewBlogPost({ title: '', content: '', date: new Date(), author: '', status: '' }));
+        this.store.dispatch(new Blogging.CreateNewBlogPost({ id: '', title: '', content: '', date: new Date(), author: '', status: '' }));
     }
 
     public cancelSubscriptions() {
