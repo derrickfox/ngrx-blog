@@ -7,9 +7,13 @@
         <mat-icon>input</mat-icon>
         <span class="nav-caption">Login</span>
     </a>
-    <a mat-list-item routerLink="/training" (click)="onClose()" *ngIf="isAuth$ | async">
+    <a mat-list-item routerLink="/" (click)="onClose()" *ngIf="isAuth$ | async">
         <mat-icon>fitness_center</mat-icon>
-        <span class="nav-caption">Training</span>
+        <span class="nav-caption">Blog</span>
+    </a>
+    <a mat-list-item routerLink="/new" (click)="onClose()" *ngIf="isAuth$ | async">
+        <mat-icon>fitness_center</mat-icon>
+        <span class="nav-caption">New Post</span>
     </a>
     <mat-list-item>
         <button mat-icon-button (click)="onClose()" *ngIf="isAuth$ | async">

@@ -1,4 +1,3 @@
-import { Action } from "@ngrx/store";
 import { SET_UNAUTHENTICATED, SET_AUTHENTICATED, AuthActions } from "./auth.actions";
 
 export interface State {

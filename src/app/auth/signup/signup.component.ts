@@ -11,7 +11,6 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  public maxDate!: Date;
   public isLoading$!: Observable<boolean>;
 
   constructor(
@@ -21,8 +20,6 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
-    this.maxDate = new Date();
-    this.maxDate.setDate(this.maxDate.getFullYear() - 18);
   }
 
   onSubmit(form: NgForm) {

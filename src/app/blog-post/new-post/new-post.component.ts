@@ -57,7 +57,7 @@ export class NewPostComponent implements OnInit {
             status: 'test status'
         }
       ));
-      this.router.navigate(['/list'])
+      this.router.navigate(['/'])
     })
   }
 

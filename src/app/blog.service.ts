@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Subject, Subscription } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { UiService } from "./shared/ui.service";
 import { BlogPost } from "./blog-post/blog-post.model";
@@ -53,7 +53,7 @@ export class BlogService {
     }
 
     public getEveryBlogPost(): any {
-        console.log('service -> getEveryBlogPost');
+        console.log('blog service -> getEveryBlogPost');
         this.store.dispatch(new UI.StartLoading());
         this.fbSubs.push(this.db
             .collection('blog-posts')
@@ -73,7 +73,7 @@ export class BlogService {
                 })
             )
             .subscribe((blog_post: any) => {
-                console.log('service -> getEveryBlogPost -> blog_post', blog_post)
+                console.log('blog service -> getEveryBlogPost -> blog_post', blog_post)
                 this.store.dispatch(new UI.StopLoading());
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
             }, () => {
@@ -85,12 +85,12 @@ export class BlogService {
     }
 
     public getEveryBlogPost1() {
-        console.log('service -> getEveryBlogPost')
+        console.log('blog service -> getEveryBlogPost')
         this.fbSubs.push(this.db
             .collection('blog-posts')
             .valueChanges()
             .subscribe((blog_post: any) => {
-                console.log('service -> getEveryBlogPost1 -> blog_post', blog_post)
+                console.log('blog service -> getEveryBlogPost1 -> blog_post', blog_post)
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
         }));
     }

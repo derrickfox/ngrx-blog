@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { BlogPost } from '../blog-post/blog-post.model';
 import { BlogService } from '../blog.service';
 import * as fromBlogging from './blog-list.reducer'
+import * as fromRoot from '../app.reducer';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-blog-list',
@@ -10,11 +12,16 @@ import * as fromBlogging from './blog-list.reducer'
   styleUrls: ['./blog-list.component.sass']
 })
 export class BlogListComponent implements OnInit {
+  public isAuth$!: Observable<boolean>;
   public blog_posts: BlogPost[] = [];
 
   constructor(private blogService: BlogService, private store: Store<fromBlogging.State>) { }
 
   ngOnInit(): void {
+    this.isAuth$ = this.store.select(fromRoot.getIsAuth);
+    this.store.select(fromRoot.getIsAuth).subscribe(auth => {
+      console.log('auth?', auth);
+    })
     this.store.select(fromBlogging.getAllBlogPosts).subscribe((blog_posts: BlogPost[]) => {
       this.blog_posts = blog_posts;
       console.log('component -> select -> this.blog_posts', this.blog_posts);
