@@ -35,7 +35,8 @@ export class BlogService {
                             id: doc.payload.doc.id,
                             title: data['title'],
                             content: data['content'],
-                            status: data['status']
+                            status: data['status'],
+                            date: data['date']
                         }
                     })
                 })
@@ -67,7 +68,8 @@ export class BlogService {
                             id: doc.payload.doc.id,
                             title: data['title'],
                             content: data['content'],
-                            status: data['status']
+                            status: data['status'],
+                            date: data['date']
                         }
                     })
                 })

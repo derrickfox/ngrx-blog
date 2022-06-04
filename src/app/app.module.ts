@@ -22,6 +22,7 @@ import { BlogPostComponent } from './blog-post/blog-post.component';
 import { BlogListModule } from './blog-list/blog-list.module';
 import { BlogService } from './blog.service';
 import { BlogPostModule } from './blog-post/blog-post.module';
+import { LeftSidePanelComponent } from './left-side-panel/left-side-panel.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BlogPostModule } from './blog-post/blog-post.module';
     HeaderComponent,
     SidenavListComponent,
     AdminDashComponent,
-    BlogPostComponent
+    BlogPostComponent,
+    LeftSidePanelComponent
   ],
   imports: [
     BrowserModule,
