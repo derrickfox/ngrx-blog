@@ -1,11 +1,12 @@
 import { Action, createFeatureSelector, createSelector } from "@ngrx/store";
 import { BlogPost } from "../blog-post/blog-post.model";
-import { BlogPostActions, GET_ALL_BLOG_POSTS, CREATE_NEW_BLOG_POST } from "./blog-list.actions";
+import { BlogPostActions, GET_ALL_BLOG_POSTS, CREATE_NEW_BLOG_POST, DELETE_BLOG_POST } from "./blog-list.actions";
 import * as fromRoot from '../app.reducer';
 
 export interface BlogPostState {
     allBlogPosts: BlogPost[];
     newBlogPost: BlogPost;
+    deletBlogPostId: string;
 };
 
 export interface State extends fromRoot.State {
@@ -14,7 +15,8 @@ export interface State extends fromRoot.State {
 
 const initialState: BlogPostState = {
     allBlogPosts: [],
-    newBlogPost: { title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost
+    newBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost,
+    deletBlogPostId: ''
 };
 
 export function blogListReducer(state = initialState, action: BlogPostActions) {
@@ -30,8 +32,12 @@ export function blogListReducer(state = initialState, action: BlogPostActions) {
                 ...state,
                 newBlogPost: action.payload
             };
+        case DELETE_BLOG_POST:
+            return {
+                ...state,
+                deleteBlogPostId: action.payload
+            };
         default: {
-            console.log('reducer default case')
             return state;
         }
     }
@@ -42,3 +48,4 @@ export const getBlogPostsState = createFeatureSelector<BlogPostState>('blog_post
 
 export const getAllBlogPosts = createSelector(getBlogPostsState, (state: BlogPostState) => state.allBlogPosts);
 export const createNewBlogPost = createSelector(getBlogPostsState, (state: BlogPostState) => state.newBlogPost);
+export const deleteBlogPostId = createSelector(getBlogPostsState, (state: BlogPostState) => state.deletBlogPostId);

@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-post.component.sass']
 })
 export class NewPostComponent implements OnInit {
-  newPostForm!: FormGroup;
+  public newPostForm!: FormGroup;
 
   constructor(
     private router: Router,
@@ -31,6 +31,7 @@ export class NewPostComponent implements OnInit {
       content: new FormControl('', { validators: [Validators.required] })
     });
   }
+
   private addDataToDatabase(blogPost: BlogPost) {
     this.db.collection('blog-posts').add(blogPost);
   }
@@ -39,6 +40,7 @@ export class NewPostComponent implements OnInit {
     console.log('submitNewBlogPost')
     this.store.select(fromBlogging.createNewBlogPost).pipe(take(1)).subscribe(() => {
       this.addDataToDatabase({
+          id: '',
           title: this.newPostForm.value.title,
           date: new Date,
           content: this.newPostForm.value.content,
@@ -47,6 +49,7 @@ export class NewPostComponent implements OnInit {
       });
       this.store.dispatch(new Blogging.CreateNewBlogPost(
         {
+            id: '',
             title: 'Test Title from Dispatch',
             date: new Date,
             content: 'test dispatch content',
@@ -54,7 +57,8 @@ export class NewPostComponent implements OnInit {
             status: 'test status'
         }
       ));
-      this.router.navigate(['/list'])
+      this.router.navigate(['/'])
     })
   }
+
 }

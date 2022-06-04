@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Subject, Subscription } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { UiService } from "./shared/ui.service";
 import { BlogPost } from "./blog-post/blog-post.model";
@@ -28,20 +28,20 @@ export class BlogService {
             .snapshotChanges()
             .pipe(
                 map(docArray => {
-                    console.log('service -> docArray', docArray)
+                    console.log('service -> fetchAllBlogPosts -> docArray', docArray)
                     return docArray.map(doc => {
                         const data = doc.payload.doc.data() as any;
                         return {
                             id: doc.payload.doc.id,
                             title: data['title'],
-                            duration: data['duration'],
-                            calories: data['calories']
+                            content: data['content'],
+                            status: data['status']
                         }
                     })
                 })
             )
-            .subscribe((blog_post: any) => {
-                console.log(blog_post)
+            .subscribe((blog_posts: any) => {
+                console.log('service -> fetchAllBlogPosts -> subscribe -> blog_post' )
                 //this.store.dispatch(new UI.StopLoading());
                 //this.store.dispatch(new Training.SetAvailableTrainings(exercises));
             }, () => {
@@ -53,7 +53,7 @@ export class BlogService {
     }
 
     public getEveryBlogPost(): any {
-        console.log('getEveryBlogPost');
+        console.log('blog service -> getEveryBlogPost');
         this.store.dispatch(new UI.StartLoading());
         this.fbSubs.push(this.db
             .collection('blog-posts')
@@ -66,14 +66,14 @@ export class BlogService {
                         return {
                             id: doc.payload.doc.id,
                             title: data['title'],
-                            duration: data['duration'],
-                            calories: data['calories']
+                            content: data['content'],
+                            status: data['status']
                         }
                     })
                 })
             )
             .subscribe((blog_post: any) => {
-                console.log(blog_post)
+                console.log('blog service -> getEveryBlogPost -> blog_post', blog_post)
                 this.store.dispatch(new UI.StopLoading());
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
             }, () => {
@@ -85,18 +85,22 @@ export class BlogService {
     }
 
     public getEveryBlogPost1() {
-        console.log('service -> getEveryBlogPost')
+        console.log('blog service -> getEveryBlogPost')
         this.fbSubs.push(this.db
             .collection('blog-posts')
             .valueChanges()
             .subscribe((blog_post: any) => {
-                console.log(blog_post)
+                console.log('blog service -> getEveryBlogPost1 -> blog_post', blog_post)
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
         }));
     }
 
+    public deleteBlogPost(id: string) {
+        this.db.collection('blog-posts').doc(id).delete();
+    }
+
     public createNewBlogPost() {
-        this.store.dispatch(new Blogging.CreateNewBlogPost({ title: '', content: '', date: new Date(), author: '', status: '' }));
+        this.store.dispatch(new Blogging.CreateNewBlogPost({ id: '', title: '', content: '', date: new Date(), author: '', status: '' }));
     }
 
     public cancelSubscriptions() {

@@ -1,6 +1,11 @@
-<p>blog-list works!</p>
-
-<div *ngFor="let post of blog_posts">
-    <h3>{{post.title}}</h3>
-    <p>{{post.content}}</p>
-</div>
+<section *ngFor="let post of blog_posts" class="blog-post-list-item" fxLayout fxLayoutAlign="center">
+    <mat-card fxFlex="400px;" fxFlex.xs="100%">
+        <mat-card-title fxLayoutAlign="center">{{post.title}}</mat-card-title>
+        <mat-card-content fxLayoutAlign="center">
+            <h3>{{post.content}}</h3>        
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="center">
+            <button *ngIf="isAuth$ | async" mat-button (click)="deleteBlogPost(post.id)">Delete</button>
+        </mat-card-actions>
+    </mat-card>
+</section>

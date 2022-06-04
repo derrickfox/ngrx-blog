@@ -22,9 +22,11 @@ export class AuthService {
     initAuthListener() {
         this.afAuth.authState.subscribe((user: any) => {
             if (user) {
+                console.log('auth service -> initAuthListener() -> if user', user);
                 this.store.dispatch(new Auth.SetAuthenticated());
-                this.router.navigate(['/training']);
+                this.router.navigate(['/']);
             } else {
+                console.log('auth service -> initAuthListener() -> if NOT user');
                 //this.trainingService.cancelSubscriptions();
                 this.store.dispatch(new Auth.SetUnauthenticated());
                 this.router.navigate(['/login'])
