@@ -23,8 +23,16 @@ export class BlogListComponent implements OnInit {
       console.log('auth?', auth);
     })
     this.store.select(fromBlogging.getAllBlogPosts).subscribe((blog_posts: BlogPost[]) => {
-      this.blog_posts = blog_posts;
-      console.log('component -> select -> this.blog_posts', this.blog_posts);
+      if (blog_posts) {
+        console.log('component -> blog_posts', blog_posts);
+        const sortedAsc = [...blog_posts];
+        sortedAsc.sort(
+          (objA, objB) => Number(objB.date) - Number(objA.date),
+        );        
+        console.log('sortedAsc', sortedAsc);
+        this.blog_posts = sortedAsc;
+        console.log('component -> select -> this.blog_posts', this.blog_posts);
+      }
     });
     this.blogService.getEveryBlogPost();
   }
