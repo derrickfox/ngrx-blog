@@ -4,6 +4,7 @@ import { BlogPost } from "../blog-post/blog-post.model";
 export const GET_ALL_BLOG_POSTS = '[BlogPost] Get All Blog Posts';
 export const CREATE_NEW_BLOG_POST = '[BlogPost] Create New Blog Post';
 export const DELETE_BLOG_POST = '[BlogPost] Delete Blog Post';
+export const VIEW_BLOG_POST = '[BlogPost] View Blog Post';
 
 export class GetAllBlogPosts implements Action {
     readonly type = GET_ALL_BLOG_POSTS;
@@ -20,4 +21,9 @@ export class DeleteBlogPost implements Action {
     constructor(public payload: string) {}
 }
 
-export type BlogPostActions = GetAllBlogPosts | CreateNewBlogPost | DeleteBlogPost;
+export class ViewBlogPost implements Action {
+    readonly type = VIEW_BLOG_POST;
+    constructor(public payload: BlogPost) {}
+}
+
+export type BlogPostActions = GetAllBlogPosts | CreateNewBlogPost | DeleteBlogPost | ViewBlogPost;

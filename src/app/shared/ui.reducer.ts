@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { START_LOADING, STOP_LOADING, UIActions } from "./ui.actions";
+import { POST_TWEET, START_LOADING, STOP_LOADING, UIActions } from "./ui.actions";
 
 export interface State {
     isLoading: boolean;
@@ -16,6 +16,10 @@ export function uiReducer(state = initialState, action: UIActions) {
                 isLoading: true
             };
         case STOP_LOADING:
+            return {
+                isLoading: false
+            };
+        case POST_TWEET:
             return {
                 isLoading: false
             };

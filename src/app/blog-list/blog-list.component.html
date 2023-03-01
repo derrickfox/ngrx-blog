@@ -11,7 +11,10 @@
             <button *ngIf="isAuth$ | async" mat-button (click)="deleteBlogPost(post.id)">Delete</button>
         </mat-card-actions>
         <img src="../../assets/facebook-svg.svg">
-        <img src="../../assets/twitter-svg.svg">
+        <!-- wrap img in button tag -->
+        <button mat-icon-button (click)="tweetBlogPost(post.id)">
+            <img src="../../assets/twitter-svg.svg">
+        </button>
         <img src="../../assets/linkedin.svg">
     </mat-card>
 </section>

@@ -1,2 +1,6 @@
 <app-header></app-header>
 <p id="reading_lamp_title">Reading Lamp</p>
+
+<div *ngFor="let post of blog_posts" class="blog-post-list-item" fxLayout fxLayoutAlign="left">
+				<h3>{{post.title}}</h3>
+</div>

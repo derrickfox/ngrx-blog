@@ -23,6 +23,8 @@ import { BlogListModule } from './blog-list/blog-list.module';
 import { BlogService } from './blog.service';
 import { BlogPostModule } from './blog-post/blog-post.module';
 import { LeftSidePanelComponent } from './left-side-panel/left-side-panel.component';
+import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { LeftSidePanelComponent } from './left-side-panel/left-side-panel.compon
     AppRoutingModule,
     FlexLayoutModule,
     AngularFireAuthModule,
+    HttpClientModule,
     BlogListModule,
     BlogPostModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -54,7 +57,8 @@ import { LeftSidePanelComponent } from './left-side-panel/left-side-panel.compon
     MediaMarshaller,
     AuthService,
     UiService,
-    BlogService
+    BlogService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

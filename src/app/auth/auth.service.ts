@@ -22,12 +22,9 @@ export class AuthService {
     initAuthListener() {
         this.afAuth.authState.subscribe((user: any) => {
             if (user) {
-                console.log('auth service -> initAuthListener() -> if user', user);
                 this.store.dispatch(new Auth.SetAuthenticated());
                 this.router.navigate(['/']);
             } else {
-                console.log('auth service -> initAuthListener() -> if NOT user');
-                //this.trainingService.cancelSubscriptions();
                 this.store.dispatch(new Auth.SetUnauthenticated());
                 this.router.navigate(['/login'])
             }
@@ -42,7 +39,6 @@ export class AuthService {
             ).then((result: any) => {
                 // this.uiService.loadingStateChanged.next(false);
                 this.store.dispatch(new UI.StopLoading());
-                console.log(result);
             })
             .catch((error: { message: any; }) => {
                 // this.uiService.loadingStateChanged.next(false);
@@ -60,7 +56,6 @@ export class AuthService {
         .then((result: any) => {
             //this.uiService.loadingStateChanged.next(false);
             this.store.dispatch(new UI.StopLoading());
-            console.log(result);
         })
         .catch((error: { message: any; }) => {
             // this.uiService.loadingStateChanged.next(false);

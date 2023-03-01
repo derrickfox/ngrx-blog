@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from "@angular/core";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, Subject, Subscription } from "rxjs";
+import { Observable, Subject, Subscription, Timestamp } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { UiService } from "./shared/ui.service";
 import { BlogPost } from "./blog-post/blog-post.model";
@@ -28,7 +28,6 @@ export class BlogService {
             .snapshotChanges()
             .pipe(
                 map(docArray => {
-                    console.log('service -> fetchAllBlogPosts -> docArray', docArray)
                     return docArray.map(doc => {
                         const data = doc.payload.doc.data() as any;
                         return {
@@ -36,13 +35,12 @@ export class BlogService {
                             title: data['title'],
                             content: data['content'],
                             status: data['status'],
-                            date: data['date']
+                            date: data['date']  
                         }
                     })
                 })
             )
             .subscribe((blog_posts: any) => {
-                console.log('service -> fetchAllBlogPosts -> subscribe -> blog_post' )
                 //this.store.dispatch(new UI.StopLoading());
                 //this.store.dispatch(new Training.SetAvailableTrainings(exercises));
             }, () => {
@@ -54,28 +52,37 @@ export class BlogService {
     }
 
     public getEveryBlogPost(): any {
-        console.log('blog service -> getEveryBlogPost');
         this.store.dispatch(new UI.StartLoading());
         this.fbSubs.push(this.db
             .collection('blog-posts')
             .snapshotChanges()
             .pipe(
                 map(docArray => {
-                    console.log('service -> docArray', docArray)
                     return docArray.map(doc => {
-                        const data = doc.payload.doc.data() as any;
-                        return {
-                            id: doc.payload.doc.id,
-                            title: data['title'],
-                            content: data['content'],
-                            status: data['status'],
-                            date: data['date']
-                        }
-                    })
-                })
+                      const data = doc.payload.doc.data() as BlogPost;
+                      const timestampString = 'Timestamp(seconds=1660602584, nanoseconds=234000000)';
+                      const regex = /Timestamp\(seconds=(\d+), nanoseconds=(\d+)\)/;
+                      const match = regex.exec(timestampString);
+                      let date: Date | undefined = undefined; // initialize to undefined
+                  
+                      if (match) {
+                        const seconds = Number(match[1]);
+                        const nanoseconds = Number(match[2]);
+                        date = new Date(seconds * 1000 + nanoseconds / 1000000);
+                        console.log(date);
+                      }
+                  
+                      return {
+                        id: doc.payload.doc.id,
+                        title: data['title'],
+                        content: data['content'],
+                        status: data['status'],
+                        date: date // safe to use outside the if statement
+                      };
+                    });
+                  })
             )
             .subscribe((blog_post: any) => {
-                console.log('blog service -> getEveryBlogPost -> blog_post', blog_post)
                 this.store.dispatch(new UI.StopLoading());
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
             }, () => {
@@ -87,12 +94,10 @@ export class BlogService {
     }
 
     public getEveryBlogPost1() {
-        console.log('blog service -> getEveryBlogPost')
         this.fbSubs.push(this.db
             .collection('blog-posts')
             .valueChanges()
             .subscribe((blog_post: any) => {
-                console.log('blog service -> getEveryBlogPost1 -> blog_post', blog_post)
                 this.store.dispatch(new Blogging.GetAllBlogPosts(blog_post));
         }));
     }
@@ -111,5 +116,24 @@ export class BlogService {
 
     private addDataToDatabase(blogPost: BlogPost) {
         this.db.collection('blog-posts').add(blogPost);
+    }
+
+    private viewBlogPost(blogPostId: string) {
+        const collectionRef = this.db.collection('myCollection');
+
+        // Get a reference to the document you want to fetch
+        const docRef = collectionRef.doc('myDocumentId');
+        
+        // Subscribe to the Observable to retrieve the document data
+        docRef.get().subscribe((doc) => {
+          if (doc.exists) {
+            console.log(doc.data());
+          } else {
+            console.log("No such document!");
+          }
+        }, (error) => {
+          console.log("Error getting document:", error);
+        });
+
     }
 }
