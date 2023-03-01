@@ -15,3 +15,5 @@ const routes: Routes = [
   providers: [AuthGuard]
 })
 export class AppRoutingModule { }
+
+// Why am i seeing this npm error?

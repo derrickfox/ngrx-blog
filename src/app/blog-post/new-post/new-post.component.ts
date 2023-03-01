@@ -36,8 +36,7 @@ export class NewPostComponent implements OnInit {
     this.db.collection('blog-posts').add(blogPost);
   }
 
-  public submitNewBlogPost(): void {        
-    console.log('submitNewBlogPost')
+  public submitNewBlogPost(): void {      
     this.store.select(fromBlogging.createNewBlogPost).pipe(take(1)).subscribe(() => {
       this.addDataToDatabase({
           id: '',
