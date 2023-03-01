@@ -1,6 +1,8 @@
 <app-header></app-header>
-<p id="reading_lamp_title">Reading Lamp</p>
-
+<div fxLayout fxLayout="row" fxLayoutAlign="start center" style="margin: 20px 0 20px 20px;">
+		<img id="reading_lamp_icon" src="../../assets/ReadingLampIcon.png" height="50px">
+		<p id="reading_lamp_title" style="margin-left: 10px">Reading Lamp</p>
+	</div>
 <div *ngFor="let post of blog_posts" class="blog-post-list-item" fxLayout fxLayoutAlign="left">
 				<h3>{{post.title}}</h3>
 </div>
