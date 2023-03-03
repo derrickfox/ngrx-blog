@@ -5,6 +5,7 @@ export const GET_ALL_BLOG_POSTS = '[BlogPost] Get All Blog Posts';
 export const CREATE_NEW_BLOG_POST = '[BlogPost] Create New Blog Post';
 export const DELETE_BLOG_POST = '[BlogPost] Delete Blog Post';
 export const VIEW_BLOG_POST = '[BlogPost] View Blog Post';
+export const UPDATE_BLOG_POST = '[BlogPost] Update Blog Post';
 
 export class GetAllBlogPosts implements Action {
     readonly type = GET_ALL_BLOG_POSTS;
@@ -26,4 +27,9 @@ export class ViewBlogPost implements Action {
     constructor(public payload: BlogPost) {}
 }
 
-export type BlogPostActions = GetAllBlogPosts | CreateNewBlogPost | DeleteBlogPost | ViewBlogPost;
+export class UpdateBlogPost implements Action {
+    readonly type = UPDATE_BLOG_POST;
+    constructor(public payload: BlogPost) {}
+}
+
+export type BlogPostActions = GetAllBlogPosts | CreateNewBlogPost | DeleteBlogPost | ViewBlogPost | UpdateBlogPost;

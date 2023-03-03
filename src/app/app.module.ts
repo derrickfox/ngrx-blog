@@ -25,6 +25,12 @@ import { BlogPostModule } from './blog-post/blog-post.module';
 import { LeftSidePanelComponent } from './left-side-panel/left-side-panel.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { EditPostComponent } from './blog-post/edit-post/edit-post.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +40,8 @@ import { DatePipe } from '@angular/common';
     SidenavListComponent,
     AdminDashComponent,
     BlogPostComponent,
-    LeftSidePanelComponent
+    LeftSidePanelComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +53,10 @@ import { DatePipe } from '@angular/common';
     HttpClientModule,
     BlogListModule,
     BlogPostModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatToolbarModule,
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
     StoreModule.forRoot(reducers)

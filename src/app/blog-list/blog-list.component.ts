@@ -38,6 +38,10 @@ export class BlogListComponent implements OnInit {
     this.blogService.deleteBlogPost(id);
   }
 
+  public editBlogPost(blogPost: BlogPost) {
+    this.blogService.editBlogPost(blogPost);
+  }
+
   public tweetBlogPost(id: string) {
     this.uiService.tweet(id);
   }

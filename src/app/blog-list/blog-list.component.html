@@ -6,8 +6,8 @@
         </mat-card-content>
         <hr>
         <mat-card-actions fxLayoutAlign="left">
-            <!-- <p>{{ post.date | date:'shortDate' }}</p> -->
             <p>{{ post.date }}</p>
+            <button *ngIf="isAuth$ | async" mat-button (click)="editBlogPost(post)" [routerLink]="['/edit-post', post.id]">Edit</button>
             <button *ngIf="isAuth$ | async" mat-button (click)="deleteBlogPost(post.id)">Delete</button>
         </mat-card-actions>
         <!-- <img src="../../assets/facebook-svg.svg">
