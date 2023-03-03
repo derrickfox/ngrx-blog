@@ -13,7 +13,7 @@ const firebaseConfig = {
   messagingSenderId: "872989903559",
   appId: "1:872989903559:web:a973d6419e6657ad448ce2",
   measurementId: "G-LZ3L7EZP8T"
-}
+};
 
 export const environment = {
   production: true,

@@ -1,2 +1,25 @@
 app-left-side-nav
     border: 2px solid blue
+
+.example-container
+  height: 100%
+
+.example-toolbar
+  height: 64px
+  padding: 0 16px
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1)
+  background: #fff
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+@media (max-width: 599px)
+  .mat-drawer-content
+    padding: 0
+
+  .example-toolbar
+    display: flex
+
+  mat-toolbar
+    display: none
+

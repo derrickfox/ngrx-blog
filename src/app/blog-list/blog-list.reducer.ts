@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createSelector } from "@ngrx/store";
 import { BlogPost } from "../blog-post/blog-post.model";
-import { BlogPostActions, GET_ALL_BLOG_POSTS, CREATE_NEW_BLOG_POST, DELETE_BLOG_POST, VIEW_BLOG_POST } from "./blog-list.actions";
+import { BlogPostActions, GET_ALL_BLOG_POSTS, CREATE_NEW_BLOG_POST, DELETE_BLOG_POST, VIEW_BLOG_POST, UPDATE_BLOG_POST } from "./blog-list.actions";
 import * as fromRoot from '../app.reducer';
 
 export interface BlogPostState {
@@ -8,6 +8,7 @@ export interface BlogPostState {
     newBlogPost: BlogPost;
     deletBlogPostId: string;
     viewBlogPost: BlogPost;
+    editBlogPost: BlogPost;
 };
 
 export interface State extends fromRoot.State {
@@ -18,7 +19,8 @@ const initialState: BlogPostState = {
     allBlogPosts: [],
     newBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost,
     deletBlogPostId: '',
-    viewBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost
+    viewBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost,
+    editBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost
 };
 
 export function blogListReducer(state = initialState, action: BlogPostActions) {
@@ -43,6 +45,11 @@ export function blogListReducer(state = initialState, action: BlogPostActions) {
                 ...state,
                 viewBlogPost: action.payload
             };
+        case UPDATE_BLOG_POST:
+            return {
+                ...state,
+                editBlogPost: action.payload
+            };
         default: {
             return state;
         }
@@ -56,3 +63,5 @@ export const getAllBlogPosts = createSelector(getBlogPostsState, (state: BlogPos
 export const createNewBlogPost = createSelector(getBlogPostsState, (state: BlogPostState) => state.newBlogPost);
 export const deleteBlogPostId = createSelector(getBlogPostsState, (state: BlogPostState) => state.deletBlogPostId);
 export const viewBlogPost = createSelector(getBlogPostsState, (state: BlogPostState) => state.viewBlogPost);
+export const editBlogPost = createSelector(getBlogPostsState, (state: BlogPostState) => state.editBlogPost);
+

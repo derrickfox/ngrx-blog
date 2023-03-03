@@ -1,0 +1,25 @@
+<section class="edit-blog-post-form" fxLayoutAlign="start stretch">
+	<form (ngSubmit)="submitEditBlogPost()" [formGroup]="editPostForm">
+					<mat-card fxFlex="100%;" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="start stretch">
+									<mat-card-title fxLayoutAlign="left">Edit Post</mat-card-title>
+									<mat-card-content fxLayoutAlign="left">
+													<mat-form-field class="example-full-width" appearance="fill">
+																	<mat-label>Title</mat-label>
+																	<input matInput formControlName="title" placeholder="Title" [value]="blogPost.title">
+													</mat-form-field>
+									</mat-card-content>
+									<mat-card-content fxLayoutAlign="left">
+													<mat-form-field class="example-full-width" appearance="fill">
+																	<mat-label>Content</mat-label>
+																	<textarea matInput formControlName="content" placeholder="Content" [value]="blogPost.content"></textarea>
+													</mat-form-field>
+									</mat-card-content>
+									<mat-card-actions fxLayoutAlign="right">
+													<button mat-raised-button color="primary" type="submit">Save</button>
+													<button mat-raised-button color="warn" type="button" (click)="deletePost(blogPost.id)">Delete</button>
+													<!-- mat-raised-button that navigates back to / -->
+													<button mat-raised-button color="primary" type="button" [routerLink]="['/']">Cancel</button>
+									</mat-card-actions>
+					</mat-card>
+	</form>
+</section>
