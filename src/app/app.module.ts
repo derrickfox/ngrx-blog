@@ -26,7 +26,7 @@ import { LeftSidePanelComponent } from './left-side-panel/left-side-panel.compon
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { EditPostComponent } from './blog-post/edit-post/edit-post.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -57,6 +57,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatSidenavModule,
     MatToolbarModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
     StoreModule.forRoot(reducers)

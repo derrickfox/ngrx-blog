@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from "@angular/core";
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable, Subject, Subscription, Timestamp } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { UiService } from "./shared/ui.service";
@@ -14,12 +14,15 @@ export class BlogService {
     public blog_posts = new Subject<BlogPost>();
     private fbSubs: Subscription[] = [];
     private new_post!: BlogPost;
+    private blogPostsCollection: AngularFirestoreCollection<BlogPost>;
 
     constructor(
         private db: AngularFirestore, 
         private uiService: UiService,
         private store: Store<fromBlogging.State>
-    ) {}
+    ) {
+        this.blogPostsCollection = db.collection<BlogPost>('blog-posts');
+    }
     
     // public fetchAllBlogPosts(): any {
     //     this.store.dispatch(new UI.StartLoading());
@@ -92,6 +95,25 @@ export class BlogService {
             }
         ));
     }
+
+    // public searchFirebase(searchTerm: string): Observable<BlogPost[]> {
+    //     const collection: AngularFirestoreCollection<BlogPost> = this.db.collection('blog-posts', ref =>
+    //       ref.where('title', '>=', searchTerm)
+    //         .where('title', '<=', searchTerm + '\uf8ff')
+    //         .where('content', '>=', searchTerm)
+    //         .where('content', '<=', searchTerm + '\uf8ff')
+    //     );
+    
+    //     return collection.snapshotChanges().pipe(
+    //       map(docArray => {
+    //         return docArray.map(doc => {
+    //           const data = doc.payload.doc.data() as BlogPost;
+    //           const id = doc.payload.doc.id;
+    //           return { id, ...data };
+    //         });
+    //       })
+    //     );
+    // }
 
     public getEveryBlogPost1() {
         this.fbSubs.push(this.db

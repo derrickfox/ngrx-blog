@@ -5,6 +5,8 @@ import * as fromBlogging from '../blog-list/blog-list.reducer';
 import * as fromRoot from '../app.reducer';
 import { Store } from '@ngrx/store';
 import { UiService } from '../shared/ui.service';
+import { Observable } from 'rxjs/internal/Observable';
+
 
 @Component({
   selector: 'app-left-side-panel',
@@ -13,6 +15,10 @@ import { UiService } from '../shared/ui.service';
 })
 export class LeftSidePanelComponent implements OnInit {
   public blog_posts: BlogPost[] = [];
+  public searchText: string = '';
+  public sortedAsc: BlogPost[] = [];
+  public searchTerm: string = '';
+  public searchResults$!: Observable<BlogPost[]>;
 
   constructor(private blogService: BlogService, private store: Store<fromBlogging.State>, private uiService: UiService) { }
 
@@ -28,4 +34,27 @@ export class LeftSidePanelComponent implements OnInit {
     });
   }
 
+  // public onSearchChange() {
+  //   if (this.searchText) {
+  //     console.log('left-side-panel -> onSearchChange -> searchText: ', this.searchText);
+  //     //this.blogService.searchBlogs(this.searchText);
+  //     this.store.dispatch(searchBlogPosts({ searchTerm: this.searchText }));
+  //     // this.store.select(fromBlogging.searchBlogPost).subscribe((blogs_found: BlogPost[]) => {
+  //     //   console.log('left-side-panel -> onSearchChange -> this.store.select searchBlogPost -> blogs_found', blogs_found);
+  //     // });
+  //   } else {
+  //     this.store.dispatch(new ClearSearch());
+  //   }
+  // }
+
+  // public searchBlogs() {
+  //   this.store.dispatch(searchBlogPosts({ searchTerm: this.searchText }));
+  // }
+
+  // public clearSearch() {
+  //   this.store.dispatch(new ClearSearch());
+  //   this.searchText = '';
+  // }
+  
+  
 }
