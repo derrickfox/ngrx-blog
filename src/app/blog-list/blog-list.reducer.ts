@@ -1,6 +1,7 @@
-import { Action, createFeatureSelector, createSelector } from "@ngrx/store";
+import { Action, createFeatureSelector, createReducer, createSelector, on } from "@ngrx/store";
 import { BlogPost } from "../blog-post/blog-post.model";
 import { BlogPostActions, GET_ALL_BLOG_POSTS, CREATE_NEW_BLOG_POST, DELETE_BLOG_POST, VIEW_BLOG_POST, UPDATE_BLOG_POST } from "./blog-list.actions";
+import * as BlogActions from './blog-list.actions';
 import * as fromRoot from '../app.reducer';
 
 export interface BlogPostState {
@@ -9,6 +10,10 @@ export interface BlogPostState {
     deletBlogPostId: string;
     viewBlogPost: BlogPost;
     editBlogPost: BlogPost;
+    blogPosts: BlogPost[];
+    searchResults: BlogPost[];
+    searchTerm: string;
+    loading: boolean;
 };
 
 export interface State extends fromRoot.State {
@@ -20,7 +25,11 @@ const initialState: BlogPostState = {
     newBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost,
     deletBlogPostId: '',
     viewBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost,
-    editBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost
+    editBlogPost: { id: '', title: '', content: '', date: new Date(), author: '', status: '' } as BlogPost,
+    blogPosts: [],
+    searchResults: [],
+    searchTerm: '',
+    loading: false
 };
 
 export function blogListReducer(state = initialState, action: BlogPostActions) {
@@ -64,4 +73,22 @@ export const createNewBlogPost = createSelector(getBlogPostsState, (state: BlogP
 export const deleteBlogPostId = createSelector(getBlogPostsState, (state: BlogPostState) => state.deletBlogPostId);
 export const viewBlogPost = createSelector(getBlogPostsState, (state: BlogPostState) => state.viewBlogPost);
 export const editBlogPost = createSelector(getBlogPostsState, (state: BlogPostState) => state.editBlogPost);
+
+export const blogReducer = createReducer(
+    initialState,
+    on(BlogActions.searchBlogPosts, (state, { searchTerm }) => ({
+      ...state,
+      searchTerm,
+      loading: true
+    })),
+    on(BlogActions.getAllBlogPostsSuccess, (state, { blogPosts }) => ({
+      ...state,
+      blogPosts,
+      searchResults: state.blogPosts.filter(post =>
+        post.title.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
+        post.content.toLowerCase().includes(state.searchTerm.toLowerCase())
+      ),
+      loading: false
+    }))
+  );
 
