@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 })
 export class NewPostComponent implements OnInit {
   public newPostForm!: FormGroup;
+  public content: string = '';
 
   constructor(
     private router: Router,
