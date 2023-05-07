@@ -9,6 +9,9 @@ import * as Blogging from '../../blog-list/blog-list.actions';
 import { BlogPost } from '../blog-post.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
+
 
 @Component({
   selector: 'app-edit-post',
@@ -24,6 +27,7 @@ export class EditPostComponent implements OnInit {
     private blogService: BlogService,
     private db: AngularFirestore, 
     private uiService: UiService,
+    private dialog: MatDialog,
     private store: Store<fromBlogging.State>) { }
 
   ngOnInit(): void {
@@ -67,8 +71,23 @@ export class EditPostComponent implements OnInit {
   }
   
   public deletePost(id: string) {
-    this.blogService.deleteBlogPost(id);
-    
-    this.router.navigate(['/']);
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: { message: 'Are you sure you want to delete this post?' }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Perform the actual delete action when the user confirms.
+        this.blogService.deleteBlogPost(id);
+        
+        this.router.navigate(['/']);
+        console.log('User confirmed deletion');
+      } else {
+        console.log('User canceled deletion');
+      }
+    });
+
   }
 }
