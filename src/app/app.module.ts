@@ -30,6 +30,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 @NgModule({
@@ -41,7 +42,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     AdminDashComponent,
     BlogPostComponent,
     LeftSidePanelComponent,
-    EditPostComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +58,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSidenavModule,
     MatToolbarModule,
     FormsModule,
+    EditorModule,
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
     StoreModule.forRoot(reducers)
