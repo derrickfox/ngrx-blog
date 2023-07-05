@@ -6,9 +6,12 @@ import { BlogService } from 'src/app/blog.service';
 import { UiService } from 'src/app/shared/ui.service';
 import * as fromBlogging from '../../blog-list/blog-list.reducer';
 import * as Blogging from '../../blog-list/blog-list.actions';
-import { BlogPost } from '../blog-post.model';
+import { BlogPost, BlogPostImpl } from '../blog-post.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/confirmation-dialog/confirmation-dialog.component';
+
 
 @Component({
   selector: 'app-edit-post',
@@ -17,13 +20,14 @@ import { Router } from '@angular/router';
 })
 export class EditPostComponent implements OnInit {
   public editPostForm!: FormGroup;
-  public blogPost!: BlogPost;
+  public blogPost!: BlogPostImpl;
 
   constructor(
     private router: Router,
     private blogService: BlogService,
     private db: AngularFirestore, 
     private uiService: UiService,
+    private dialog: MatDialog,
     private store: Store<fromBlogging.State>) { }
 
   ngOnInit(): void {
@@ -32,7 +36,7 @@ export class EditPostComponent implements OnInit {
       content: new FormControl('', { validators: [Validators.required] })
     });
 
-    this.store.select(fromBlogging.editBlogPost).pipe(take(1)).subscribe((blogPost: BlogPost) => {
+    this.store.select(fromBlogging.editBlogPost).pipe(take(1)).subscribe((blogPost: any) => {
       this.blogPost = blogPost;
 
       this.editPostForm.patchValue({
@@ -41,8 +45,8 @@ export class EditPostComponent implements OnInit {
       });
 
       this.editPostForm.valueChanges.subscribe(() => {
-        this.blogPost.title = this.editPostForm.value.title;
-        this.blogPost.content = this.editPostForm.value.content;
+        this.blogPost.setTitle(this.editPostForm.value.title);
+        this.blogPost.setContent(this.editPostForm.value.content);
       });
     });
   }
@@ -67,8 +71,23 @@ export class EditPostComponent implements OnInit {
   }
   
   public deletePost(id: string) {
-    this.blogService.deleteBlogPost(id);
-    
-    this.router.navigate(['/']);
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: { message: 'Are you sure you want to delete this post?' }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Perform the actual delete action when the user confirms.
+        this.blogService.deleteBlogPost(id);
+        
+        this.router.navigate(['/']);
+        console.log('User confirmed deletion');
+      } else {
+        console.log('User canceled deletion');
+      }
+    });
+
   }
 }

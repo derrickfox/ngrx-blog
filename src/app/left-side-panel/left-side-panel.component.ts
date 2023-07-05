@@ -19,10 +19,14 @@ export class LeftSidePanelComponent implements OnInit {
   public sortedAsc: BlogPost[] = [];
   public searchTerm: string = '';
   public searchResults$!: Observable<BlogPost[]>;
+  public isAuth$!: Observable<boolean>;
 
   constructor(private blogService: BlogService, private store: Store<fromBlogging.State>, private uiService: UiService) { }
 
   ngOnInit(): void {
+    this.isAuth$ = this.store.select(fromRoot.getIsAuth);
+    this.store.select(fromRoot.getIsAuth).subscribe(auth => {
+    })
     this.store.select(fromBlogging.getAllBlogPosts).subscribe((blog_posts: BlogPost[]) => {
       if (blog_posts) {
         const sortedAsc = [...blog_posts];
@@ -32,6 +36,10 @@ export class LeftSidePanelComponent implements OnInit {
         this.blog_posts = sortedAsc;
       }
     });
+  }
+
+  public editBlogPost(blogPost: BlogPost) {
+    this.blogService.editBlogPost(blogPost);
   }
 
   // public onSearchChange() {
