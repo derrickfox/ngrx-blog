@@ -6,6 +6,23 @@ export interface BlogPost {
     author: string;
     status: string;
 }
+
+export class BlogPostImpl implements BlogPost {
+    id!: string;
+    date!: Date;
+    author!: string;
+    status!: string;
+    title!: string;
+    content!: string;
+  
+    setTitle(title: string) {
+      this.title = title;
+    }
+  
+    setContent(content: string) {
+      this.content = content;
+    }
+  }
   
 // export class BlogPost {
 //     constructor(
