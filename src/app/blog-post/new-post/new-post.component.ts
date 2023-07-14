@@ -42,6 +42,7 @@ export class NewPostComponent implements OnInit {
       this.addDataToDatabase({
           id: '',
           title: this.newPostForm.value.title,
+          labels: this.newPostForm.value.labels,
           date: new Date,
           content: this.newPostForm.value.content,
           author: 'test author',
@@ -51,6 +52,7 @@ export class NewPostComponent implements OnInit {
         {
             id: '',
             title: 'Test Title from Dispatch',
+            labels: [],
             date: new Date,
             content: 'test dispatch content',
             author: 'test author',

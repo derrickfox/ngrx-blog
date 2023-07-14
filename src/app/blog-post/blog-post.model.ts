@@ -1,6 +1,7 @@
 export interface BlogPost {
     id: string;
     title: string;
+    labels: string[];
     date: Date;
     content: string;
     author: string;
@@ -14,6 +15,7 @@ export class BlogPostImpl implements BlogPost {
     status!: string;
     title!: string;
     content!: string;
+    labels: string[] = [];
   
     setTitle(title: string) {
       this.title = title;
@@ -21,6 +23,10 @@ export class BlogPostImpl implements BlogPost {
   
     setContent(content: string) {
       this.content = content;
+    }
+
+    setLabels(labels: string[]) {
+      this.labels = labels;
     }
   }
   

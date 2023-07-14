@@ -79,6 +79,7 @@ export class BlogService {
                         id: doc.payload.doc.id,
                         title: data['title'],
                         content: data['content'],
+                        labels: data['labels'],
                         status: data['status'],
                         date: date // safe to use outside the if statement
                       };
@@ -129,7 +130,7 @@ export class BlogService {
     }
 
     public createNewBlogPost() {
-        this.store.dispatch(new Blogging.CreateNewBlogPost({ id: '', title: '', content: '', date: new Date(), author: '', status: '' }));
+        this.store.dispatch(new Blogging.CreateNewBlogPost({ id: '', title: '', content: '', labels: [], date: new Date(), author: '', status: '' }));
     }
 
     public cancelSubscriptions() {

@@ -4,6 +4,11 @@
         <mat-card-content fxLayoutAlign="center">
             <h3 [innerHTML]="post.content"></h3>       
         </mat-card-content>
+        <div *ngFor="let label of post.labels">
+            <mat-chip-list chipsLayout="row">
+                <mat-chip>{{label}}</mat-chip>
+            </mat-chip-list>
+        </div>
         <hr>
         <mat-card-actions fxLayoutAlign="left">
             <p>{{ post.date }}</p>

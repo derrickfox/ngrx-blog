@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import './app.component.sass';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { LabelsListComponent } from './labels-list/labels-list.component';
 
 
 @NgModule({
@@ -43,7 +45,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     AdminDashComponent,
     BlogPostComponent,
     LeftSidePanelComponent,
-    ConfirmationDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

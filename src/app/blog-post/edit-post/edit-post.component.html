@@ -8,6 +8,7 @@
 																	<input matInput formControlName="title" placeholder="Title" [value]="blogPost.title">
 													</mat-form-field>
 									</mat-card-content>
+                  <app-labels-list [labels]="blogPost.labels"></app-labels-list>
 									<editor apiKey="vwy4796bcb6avcevlj1mrkewobdyaczs6qkon5n6uc9fag9c" 
 													matInput 
 													formControlName="content" 

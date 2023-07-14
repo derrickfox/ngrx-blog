@@ -4,6 +4,7 @@ import { SharedModule } from "../shared/shared.module";
 import { BlogListRoutingModule } from "./blog-list-routing.module";
 import { BlogListComponent } from "./blog-list.component";
 import { blogListReducer } from "./blog-list.reducer";
+import { LabelsListComponent } from "../labels-list/labels-list.component";
 
 @NgModule({
     declarations: [

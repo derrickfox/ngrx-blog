@@ -33,7 +33,8 @@ export class EditPostComponent implements OnInit {
   ngOnInit(): void {
     this.editPostForm = new FormGroup({
       title: new FormControl('', { validators: [Validators.required] }),
-      content: new FormControl('', { validators: [Validators.required] })
+      content: new FormControl('', { validators: [Validators.required] }),
+      labels: new FormControl('' )
     });
 
     this.store.select(fromBlogging.editBlogPost).pipe(take(1)).subscribe((blogPost: any) => {
@@ -41,12 +42,14 @@ export class EditPostComponent implements OnInit {
 
       this.editPostForm.patchValue({
         title: this.blogPost.title,
-        content: this.blogPost.content
+        content: this.blogPost.content,
+        labels: this.blogPost.labels
       });
 
       this.editPostForm.valueChanges.subscribe(() => {
         this.blogPost.setTitle(this.editPostForm.value.title);
         this.blogPost.setContent(this.editPostForm.value.content);
+        this.blogPost.setLabels(this.editPostForm.value.labels);
       });
     });
   }
@@ -60,7 +63,8 @@ export class EditPostComponent implements OnInit {
     const updatedBlogPost: BlogPost = {
       ...this.blogPost,
       title: this.editPostForm.value.title,
-      content: this.editPostForm.value.content
+      content: this.editPostForm.value.content,
+      labels: this.editPostForm.value.labels
     };
   
     this.updateBlogPost(updatedBlogPost);
