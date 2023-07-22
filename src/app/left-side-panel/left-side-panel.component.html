@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div fxLayout fxLayout="row" fxLayoutAlign="start center" style="margin: 20px 0 20px 20px;">
+  <p id="reading_lamp_title" style="margin-left: 10px; width: 170px;">Our Reading L.A.M.P.</p>
   <img id="reading_lamp_icon" src="../../assets/ReadingLampIcon.png" height="50px">
-  <p id="reading_lamp_title" style="margin-left: 10px">Our Reading L.A.M.P.</p>
 </div>
 <div fxLayout fxLayoutAlign="start center" style="margin: 0 0 20px 20px;">
   <!-- <mat-form-field>
@@ -13,11 +13,10 @@
   </mat-form-field> -->
 </div>
 <div *ngFor="let post of blog_posts" class="blog-post-list-item" fxLayout fxLayoutAlign="left">
-  <h3>
-    <a *ngIf="isAuth$ | async" mat-button (click)="editBlogPost(post)" [routerLink]="['/edit-post', post.id]">
+ 
+    <a *ngIf="isAuth$ | async" (click)="editBlogPost(post)" [routerLink]="['/edit-post', post.id]">
       {{ post.title }}
     </a>
-  </h3>
 </div>
 
 <ul>

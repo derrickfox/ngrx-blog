@@ -62,6 +62,7 @@ export class BlogService {
             .pipe(
                 map(docArray => {
                     return docArray.map(doc => {
+                        console.log("doc.payload.doc.data()", doc.payload.doc.data());
                       const data = doc.payload.doc.data() as BlogPost;
                       const timestampString = data['date'].toString();
                       const regex = /Timestamp\(seconds=(\d+), nanoseconds=(\d+)\)/;

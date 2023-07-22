@@ -33,7 +33,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

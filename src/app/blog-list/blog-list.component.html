@@ -1,5 +1,5 @@
 <section *ngFor="let post of blog_posts" class="blog-post-list-item" fxLayout fxLayoutAlign="left">
-    <mat-card fxFlex="600px;" fxFlex.xs="100%">
+    <mat-card fxFlex="600px;" fxFlex.xs="100%" style="padding-left: 30px;">
         <mat-card-title fxLayoutAlign="left">{{post.title}}</mat-card-title>
         <mat-card-content fxLayoutAlign="center">
             <h3 [innerHTML]="post.content"></h3>       
