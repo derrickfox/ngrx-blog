@@ -6,6 +6,7 @@ import * as fromBlogging from './blog-list.reducer';
 import * as fromRoot from '../app.reducer';
 import { Observable } from 'rxjs';
 import { UiService } from '../shared/ui.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog-list',
@@ -16,7 +17,7 @@ export class BlogListComponent implements OnInit {
   public isAuth$!: Observable<boolean>;
   public blog_posts: BlogPost[] = [];
 
-  constructor(private blogService: BlogService, private store: Store<fromBlogging.State>, private uiService: UiService) { }
+  constructor(private blogService: BlogService, private store: Store<fromBlogging.State>, private uiService: UiService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.isAuth$ = this.store.select(fromRoot.getIsAuth);
@@ -24,6 +25,7 @@ export class BlogListComponent implements OnInit {
     })
     this.store.select(fromBlogging.getAllBlogPosts).subscribe((blog_posts: BlogPost[]) => {
       if (blog_posts) {
+        console.log("blog_posts: ", blog_posts);
         const sortedAsc = [...blog_posts];
         sortedAsc.sort(
           (objA, objB) => Number(objB.date) - Number(objA.date),
@@ -32,6 +34,10 @@ export class BlogListComponent implements OnInit {
       }
     });
     this.blogService.getEveryBlogPost();
+  }
+
+  public getSafeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   public deleteBlogPost(id: string) {
